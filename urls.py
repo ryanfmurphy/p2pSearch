@@ -18,6 +18,7 @@ def urls():
         db.row_factory = dict_factory
         return json.dumps(db.execute('SELECT * FROM url').fetchall())
 
+'''
 @app.route('/urls/tags')
 def tags(): #todo make tag associations and implement this
     with open('urls.txt', 'r') as fh:
@@ -27,6 +28,7 @@ def tags(): #todo make tag associations and implement this
     for tag in raw_tags:
         ctr[tag] += 1
     return json.dumps(ctr)
+'''
 
 @app.route('/urls/search/<search>')
 def search(search):
