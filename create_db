@@ -1,0 +1,5 @@
+#!/bin/bash
+set -v
+rm urls.db
+sqlite3 urls.db < db_schema.sql
+python urlstxt2db.py
