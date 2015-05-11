@@ -14,9 +14,9 @@ url_re = 'https?://\S+'
 
 @app.route('/urls')
 def urls():
-    db = sqlite3.connect('urls.db')
-    db.row_factory = dict_factory
-    return json.dumps(db.execute('SELECT * FROM url').fetchall())
+    with sqlite3.connect('urls.db') as db:
+        db.row_factory = dict_factory
+        return json.dumps(db.execute('SELECT * FROM url').fetchall())
 
 @app.route('/urls/tags')
 def tags(): #todo make tag associations and implement this
@@ -30,9 +30,9 @@ def tags(): #todo make tag associations and implement this
 
 @app.route('/urls/search/<search>')
 def search(search):
-    db = sqlite3.connect('urls.db')
-    db.row_factory = dict_factory
-    return json.dumps(db.execute('SELECT * FROM url WHERE description LIKE ?', ('%'+search+'%',)).fetchall())
+    with sqlite3.connect('urls.db') as db:
+        db.row_factory = dict_factory
+        return json.dumps(db.execute('SELECT * FROM url WHERE description LIKE ?', ('%'+search+'%',)).fetchall())
 
 @app.route('/urls/tag/<tag>')
 def tag(tag):
