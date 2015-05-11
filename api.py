@@ -1,7 +1,7 @@
 from flask import Flask
 app = Flask(__name__)
 
-import json, line_tags
+import json
 import re
 import collections
 
