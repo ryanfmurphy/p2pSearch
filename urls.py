@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template
 app = Flask(__name__)
 
 import json, re, collections, sqlite3
@@ -11,6 +11,11 @@ def dict_factory(cursor, row):
 
 tag_re = r'#[a-zA-Z0-9_]+\b'
 url_re = 'https?://\S+'
+
+
+
+
+# Search API
 
 @app.route('/urls')
 def urls():
@@ -30,11 +35,14 @@ def tags(): #todo make tag associations and implement this
     return json.dumps(ctr)
 '''
 
-@app.route('/urls/search/<search>')
-def search(search):
+def search(query):
     with sqlite3.connect('urls.db') as db:
         db.row_factory = dict_factory
-        return json.dumps(db.execute('SELECT * FROM url WHERE description LIKE ?', ('%'+search+'%',)).fetchall())
+        return db.execute('SELECT * FROM url WHERE description LIKE ?', ('%'+query+'%',)).fetchall()
+
+@app.route('/urls/search/<query>')
+def search_api(query):
+    return json.dumps(search(query))
 
 @app.route('/urls/tag/<tag>')
 def tag(tag):
@@ -54,6 +62,17 @@ def tag(tag):
                 })
 
     return json.dumps(matched_lines)
+
+
+
+# Search UI
+
+@app.route('/search/<query>')
+def search_ui(query):
+    results = search(query)
+    return render_template('search.html', query=query, results=results)
+
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)

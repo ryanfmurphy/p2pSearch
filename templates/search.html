@@ -1,0 +1,15 @@
+<html>
+    <head></head>
+    <body>
+        <div>
+            <p>You searched for <b>"{{query}}"</b></p>
+            <div id="results">
+{% for result in results %}
+                <p class="result">
+                    <a href="{{result.url}}">{{result.description}}</a>
+                </p>
+{% endfor %}
+            </div>
+        </div>
+    </body>
+</html>
