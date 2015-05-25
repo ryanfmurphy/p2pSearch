@@ -33,10 +33,11 @@ sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 sock.bind((my_ip,my_port))
 
 t = threading.Thread(None,listen)
+t.daemon = True
 t.start()
 
 # As you can see, there is no connect() call; UDP has no connections.
 # Instead, data is directly sent to the recipient via sendto().
 while True:
-    msg = raw_input('> ')
-    send(msg)
+   msg = raw_input('> ')
+   send(sock,msg)
