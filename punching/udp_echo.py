@@ -12,7 +12,17 @@ TODO use STUN addresses rather than localhost
 import socket
 import sys
 import threading
-import config
+
+try:
+  import config
+except ImportError:
+  print '''
+    You must create a config file!
+
+    Copy config.py.template to config.py and put in your secrets!
+
+    '''
+  sys.exit()
 
 them = config.them
 
