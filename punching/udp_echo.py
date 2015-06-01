@@ -9,6 +9,7 @@ TODO use STUN addresses rather than localhost
 
 
 '''
+
 import socket
 import sys
 import threading
@@ -25,8 +26,7 @@ except ImportError:
   sys.exit()
 
 them = config.them
-
-my_ip,my_port= sys.argv[1], int(sys.argv[2])
+me = config.me
 
 def listen():
     while True:
@@ -40,7 +40,7 @@ def send(sock,msg):
 
 # SOCK_DGRAM is the socket type to use for UDP sockets
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-sock.bind((my_ip,my_port))
+sock.bind(me)
 
 t = threading.Thread(None,listen)
 t.daemon = True
